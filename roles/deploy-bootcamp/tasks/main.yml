@@ -1,0 +1,30 @@
+- name: Download Artifact from Artifactory
+  get_url:
+    url: https://jewjonny.jfrog.io/artifactory/default-generic-local/coolapp-1.0.0.tar
+    dest: "{{ artifact_dest }}"
+    mode: '0400'
+    username: jonatanzafar59@gmail.com
+    password: "{{ pass }}"
+
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ app_dest }}"
+    state: directory
+    mode: '0755'
+
+- name: Extract artifact
+  ansible.builtin.unarchive:
+    src: "{{ artifact_dest }}"
+    dest: "{{ app_dest }}"
+    remote_src: yes
+
+- name: Run Coolapp
+  ansible.builtin.shell: "nohup {{ app_dest }}/BootcapProject.WebService </dev/null >/dev/null 2>&1 &"
+
+- name: HealthCheck
+  uri:
+    url: http://localhost/index.html
+    method: GET
+    status_code: 200
+#   verbosity: 4
