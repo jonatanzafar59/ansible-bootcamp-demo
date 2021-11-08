@@ -1,0 +1,11 @@
+- name: testplaybook
+  become: true
+  hosts: webservers
+  vars:
+    jenkins_hostname: jenkins.jonathan
+    java_packages:
+      - openjdk-8-jdk
+
+  roles:
+    - role: geerlingguy.docker
+    # - role: geerlingguy.jenkins
