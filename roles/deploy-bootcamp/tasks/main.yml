@@ -19,6 +19,15 @@
     dest: "{{ app_dest }}"
     remote_src: yes
 
+- name: Copy KeyVault.json template
+  ansible.builtin.template:
+    src: KeyVault.json.j2
+    dest: "{{ app_dest }}/Configurations/KeyVault.json"
+    # owner: bin
+    # group: wheel
+    # mode: '0644'
+
+
 - name: Run Coolapp
   ansible.builtin.shell: "nohup {{ app_dest }}/BootcapProject.WebService </dev/null >/dev/null 2>&1 &"
 

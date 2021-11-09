@@ -1,6 +1,6 @@
 - name: testplaybook
   become: true
-  hosts: webservers
+  hosts: prod
   vars:
     jenkins_hostname: jenkins.jonathan
     dotnet_package: "dotnet-sdk-3.1"
