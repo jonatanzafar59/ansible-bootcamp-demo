@@ -1,6 +1,6 @@
 - name: testplaybook
   become: true
-  hosts: prod
+  hosts: webservers
   vars:
     jenkins_hostname: jenkins.jonathan
     dotnet_package: "dotnet-sdk-3.1"
@@ -11,5 +11,6 @@
     app_dest: "/tmp/coolapp-{{ version }}"
 
   roles:
-    # - role: ocha.dotnet-core
+    - role: ocha.dotnet-core
     - role: deploy-bootcamp
+      tags: ['deploy']
