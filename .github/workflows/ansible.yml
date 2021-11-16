@@ -31,7 +31,7 @@ jobs:
             playbook: testplaybook.yml
             inventory: inventory/prod.yml
             private_key: ${{secrets.SSH_PRIVATE_KEY}}
-            user: jonathan 
+            user: chen 
         env:
             ANSIBLE_HOST_KEY_CHECKING: 'false'
             ANSIBLE_DEPRECATION_WARNINGS: 'false'
