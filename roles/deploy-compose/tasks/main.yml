@@ -1,0 +1,41 @@
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "{{ app_dest }}"
+    state: directory
+    mode: '0755'
+
+- name: Copy docker-compose template
+  ansible.builtin.template:
+    src: docker-compose.yml
+    dest: "{{ app_dest }}/docker-compose.yml"
+
+- name: Copy nginx template
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: "{{ app_dest }}/nginx.conf"
+
+- name: Run `docker-compose up` again
+  ansible.builtin.shell: docker-compose up -d 
+  args:
+    chdir: "{{ app_dest}}"
+
+- name: HealthCheck
+  uri:
+    url: http://localhost:3000
+    method: GET
+    status_code: 200
+  register: healthcheck
+  tags: ['healthcheck']
+
+- name: Everything is OK
+  ansible.builtin.debug:
+    msg: OK!
+  when: healthcheck.status == 200
+  tags: ['healthcheck']
+
+
+- name: Everything is FAILING!
+  ansible.builtin.debug:
+    msg: FAIL!
+  when: healthcheck.status != 200
+  tags: ['healthcheck']
