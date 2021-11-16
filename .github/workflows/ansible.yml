@@ -28,7 +28,7 @@ jobs:
       - name: Run playbook
         uses: arillso/action.playbook@master
         with:
-            playbook: testplaybook.yml
+            playbook: deploy.yml
             inventory: inventory/prod.yml
             private_key: ${{secrets.SSH_PRIVATE_KEY}}
             user: chen 
